@@ -819,28 +819,34 @@ function CssDragon({
       <div className="dragon-shadow" />
       <svg className="dragon-sprite" viewBox="0 0 360 260" role="img" aria-hidden="true">
         <g className="dragon-sprite-inner" shapeRendering="crispEdges">
-          <polygon className="dragon-wing-back" points="102,98 42,58 58,126 98,156 126,140 124,108" />
-          <polygon className="dragon-wing-front" points="224,94 300,52 318,126 272,166 232,142" />
-          <polygon className="dragon-tail-svg" points="116,160 70,150 28,174 60,186 96,178 118,190" />
-          <rect className="dragon-leg-svg" x="112" y="184" width="34" height="42" />
-          <rect className="dragon-leg-svg" x="194" y="184" width="34" height="42" />
-          <rect className="dragon-claw-svg" x="98" y="222" width="56" height="14" />
-          <rect className="dragon-claw-svg" x="184" y="222" width="56" height="14" />
-          <rect className="dragon-body-svg" x="106" y="118" width="128" height="82" rx="8" />
-          <rect className="dragon-belly-svg" x="140" y="136" width="60" height="54" rx="4" />
-          <polygon className="dragon-neck-svg" points="216,112 238,74 262,82 246,144 222,150" />
-          <rect className="dragon-head-svg" x="238" y="48" width="76" height="64" rx="6" />
-          <rect className="dragon-snout-svg" x="302" y="76" width="42" height="28" rx="3" />
-          <polygon className="dragon-horn-svg" points="252,50 258,18 274,50" />
-          <polygon className="dragon-horn-svg" points="292,50 300,14 316,50" />
-          <rect className="dragon-eye-svg" x="286" y="66" width="14" height="14" />
-          <rect className="dragon-eye-dot-svg" x="294" y="70" width="6" height="6" />
-          <rect className="dragon-mouth-svg" x="312" y="100" width="28" height="6" />
-          <rect className="dragon-scale-svg" x="132" y="106" width="16" height="14" />
-          <rect className="dragon-scale-svg" x="164" y="98" width="16" height="22" />
-          <rect className="dragon-scale-svg" x="196" y="106" width="16" height="14" />
-          <rect className="dragon-highlight-svg" x="122" y="130" width="58" height="10" />
-          <rect className="dragon-highlight-svg" x="250" y="58" width="42" height="8" />
+          <polygon className="dragon-wing-back" points="114,106 72,40 28,78 48,146 98,170 136,148" />
+          <polygon className="dragon-wing-membrane" points="98,96 74,68 58,118 98,148 120,136" />
+          <polygon className="dragon-wing-front" points="220,104 282,34 334,74 318,150 264,184 226,150" />
+          <polygon className="dragon-wing-membrane" points="238,104 282,64 304,118 264,158 236,140" />
+          <polygon className="dragon-tail-svg" points="124,154 78,138 34,154 16,186 54,196 94,182 126,198" />
+          <polygon className="dragon-tail-tip-svg" points="14,186 2,166 26,170" />
+          <polygon className="dragon-leg-svg" points="112,188 146,188 152,230 100,230 106,208" />
+          <polygon className="dragon-leg-svg" points="192,188 228,188 238,230 184,230 190,208" />
+          <polygon className="dragon-claw-svg" points="94,230 158,230 150,244 98,244" />
+          <polygon className="dragon-claw-svg" points="178,230 244,230 238,244 184,244" />
+          <polygon className="dragon-body-svg" points="114,126 146,104 210,104 244,128 240,190 210,210 132,210 104,188" />
+          <polygon className="dragon-belly-svg" points="146,134 204,134 224,156 210,194 146,194 126,160" />
+          <polygon className="dragon-neck-svg" points="220,116 244,72 274,82 260,140 230,154" />
+          <polygon className="dragon-head-svg" points="246,50 306,42 334,66 330,110 304,130 252,118 234,88" />
+          <polygon className="dragon-snout-svg" points="306,70 352,82 342,112 304,108" />
+          <polygon className="dragon-horn-svg" points="254,52 258,14 280,48" />
+          <polygon className="dragon-horn-svg" points="292,48 306,10 320,56" />
+          <polygon className="dragon-fang-svg" points="314,110 324,132 334,110" />
+          <polygon className="dragon-fang-svg" points="336,106 344,126 352,108" />
+          <rect className="dragon-eye-svg" x="286" y="66" width="16" height="16" />
+          <rect className="dragon-eye-dot-svg" x="296" y="70" width="6" height="7" />
+          <rect className="dragon-mouth-svg" x="314" y="102" width="30" height="7" />
+          <polygon className="dragon-scale-svg" points="132,116 144,94 156,116" />
+          <polygon className="dragon-scale-svg" points="164,108 178,84 192,108" />
+          <polygon className="dragon-scale-svg" points="202,116 214,94 226,116" />
+          <rect className="dragon-highlight-svg" x="130" y="134" width="54" height="10" />
+          <rect className="dragon-highlight-svg" x="252" y="62" width="42" height="8" />
+          <rect className="dragon-highlight-svg" x="236" y="92" width="12" height="34" />
         </g>
       </svg>
       <div className="enemy-nameplate">{defeated ? `${name}は たおれた！` : `${name}が あらわれた！`}</div>

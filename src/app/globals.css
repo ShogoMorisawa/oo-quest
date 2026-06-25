@@ -344,7 +344,14 @@ select {
   fill: #991b1b;
 }
 
+.dragon-wing-membrane {
+  fill: #f97316;
+  stroke: #7c2d12;
+  stroke-width: 4;
+}
+
 .dragon-tail-svg,
+.dragon-tail-tip-svg,
 .dragon-neck-svg,
 .dragon-head-svg,
 .dragon-snout-svg,
@@ -360,6 +367,7 @@ select {
 }
 
 .dragon-horn-svg,
+.dragon-fang-svg,
 .dragon-claw-svg {
   fill: #f8fafc;
   stroke: #3f0713;
@@ -392,8 +400,8 @@ select {
 
 .dragon-breath {
   position: absolute;
-  top: 108px;
-  left: calc(50% + 180px);
+  top: 112px;
+  left: calc(50% + 205px);
   z-index: 4;
   width: min(310px, 36vw);
   min-width: 190px;
@@ -566,7 +574,7 @@ select {
 
   .dragon-breath {
     top: 118px;
-    left: 64%;
+    left: 68%;
     width: 132px;
     min-width: 132px;
     height: 66px;

@@ -1,6 +1,6 @@
 # oo-quest
 
-oo-questは、社内ドキュメントや仕様書から作成したクイズJSONを読み込み、RPG風のバトルでプロジェクト知識を学習するWebアプリです。
+oo-questは、クイズJSONを置いて勉強できるRPG風のWebアプリです。
 
 ## 起動
 
@@ -13,7 +13,7 @@ npm run dev
 
 ## クエストJSON
 
-実データは `public/quests/` に置き、`public/quests/index.json` に追記します。`index.sample.json` と `sample.json` が書式の見本です。
+クイズJSONは `public/quests/` に置き、`public/quests/index.json` に追記します。`index.sample.json` と `sample.json` が書式の見本です。
 
 ```json
 [
@@ -25,11 +25,7 @@ npm run dev
 ]
 ```
 
-## セキュリティ注意
-
-本物の社内情報を含むJSONは絶対にGitへコミットしないでください。`.gitignore` で `public/quests/*` を除外し、サンプルだけを許可しています。
-
-開発サーバー起動中は同一ネットワークからアクセスされる可能性があります。パブリックなWi-Fiでは実データを置いたまま公開状態にしないでください。
+`public/quests/*` は `.gitignore` で除外しています。サンプルJSONだけをリポジトリに含める設定です。
 
 ## 静的ビルド
 
