@@ -1,0 +1,122 @@
+[
+  {
+    "id": "q001",
+    "category": "domain",
+    "question": "oo-questがlocalStorageへ保存してはいけない情報はどれか？",
+    "choices": ["プレイヤー名", "問題ID", "スコア", "sourceQuoteの本文"],
+    "answerIndex": 3,
+    "explanation": "機密情報保護のため、問題文、選択肢、解説、引用、URLは保存対象から除外します。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "16. localStorage 保存仕様",
+    "sourceUrl": "",
+    "sourceQuote": "問題の本文、選択肢テキスト、解説、引用文、URLは一切保存しない"
+  },
+  {
+    "id": "q002",
+    "category": "tech",
+    "question": "静的エクスポートを有効化するNext.js設定はどれか？",
+    "choices": ["output: 'server'", "output: 'export'", "runtime: 'edge'", "distDir: 'public'"],
+    "answerIndex": 1,
+    "explanation": "Next.jsのStatic Exportを利用するため、next.config.tsでoutput: 'export'を指定します。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "5. MVPスコープ",
+    "sourceUrl": "",
+    "sourceQuote": "next.config.ts での output: 'export' 指定による完全な静的HTML/JS"
+  },
+  {
+    "id": "q003",
+    "category": "domain",
+    "question": "マックスモードの主目的はどれか？",
+    "choices": ["問題を編集する", "完全理解を証明する", "履歴を削除する", "外部APIへ送信する"],
+    "answerIndex": 1,
+    "explanation": "マックスモードは20問連続ノーミスクリアを通じて、キャッチアップ完了を示すためのモードです。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "4. ユースケース",
+    "sourceUrl": "",
+    "sourceQuote": "20問連続ノーミスでクリアした結果画面のスクリーンショットを撮影"
+  },
+  {
+    "id": "q004",
+    "category": "tech",
+    "question": "問題JSONのchoicesに求められる要素数は？",
+    "choices": ["2", "3", "4", "任意"],
+    "answerIndex": 2,
+    "explanation": "UI崩れを防ぐため、choicesは4つ固定です。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "12. バリデーション仕様",
+    "sourceUrl": "",
+    "sourceQuote": "choices は z.array(z.string()).length(4)"
+  },
+  {
+    "id": "q005",
+    "category": "domain",
+    "question": "復習画面で再出題される対象はどれか？",
+    "choices": ["全問題", "未解決の誤答履歴", "マックスモードの正解問題", "最新の1問だけ"],
+    "answerIndex": 1,
+    "explanation": "復習はMistakeRecordのうちresolved: falseの問題を復習する画面です。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "8. 復習",
+    "sourceUrl": "",
+    "sourceQuote": "未解決（resolved: false）の問題のみを抽出"
+  },
+  {
+    "id": "q006",
+    "category": "tech",
+    "question": "1問正解時に敵へ与えるダメージはいくつか？",
+    "choices": ["1", "5", "10", "25"],
+    "answerIndex": 1,
+    "explanation": "全モード共通で、正解ごとに敵へ5ダメージを与えます。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "13. ゲームロジック仕様",
+    "sourceUrl": "",
+    "sourceQuote": "1問正解につき敵に一律 5ダメージ"
+  },
+  {
+    "id": "q007",
+    "category": "domain",
+    "question": "クエスト一覧のファイルはどこへ置く仕様か？",
+    "choices": ["src/app/index.json", "public/quests/index.json", "src/lib/index.json", "out/quests.ts"],
+    "answerIndex": 1,
+    "explanation": "起動時にpublic/quests/index.jsonをfetchしてクエスト一覧を構築します。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "11. クエスト一覧JSONスキーマ",
+    "sourceUrl": "",
+    "sourceQuote": "public/quests/index.json に配置されるクエストメタデータの配列"
+  },
+  {
+    "id": "q008",
+    "category": "tech",
+    "question": "問題カテゴリとして許可される値の組み合わせはどれか？",
+    "choices": ["frontend / backend", "easy / hard", "tech / domain", "read / unread"],
+    "answerIndex": 2,
+    "explanation": "カテゴリはtechとdomainの2種類に限定されます。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "12. バリデーション仕様",
+    "sourceUrl": "",
+    "sourceQuote": "categoryはtechまたはdomainを指定"
+  },
+  {
+    "id": "q009",
+    "category": "domain",
+    "question": "ハードモードの不正解時ダメージはいくつか？",
+    "choices": ["10", "25", "100", "9999"],
+    "answerIndex": 1,
+    "explanation": "ハードモードはHP100で、不正解ごとに25ダメージを受けます。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "14. モード別パラメータ",
+    "sourceUrl": "",
+    "sourceQuote": "Hard: プレイヤーHP 100, 不正解時ダメージ 25"
+  },
+  {
+    "id": "q010",
+    "category": "tech",
+    "question": "出題抽出に使うシャッフルアルゴリズムは？",
+    "choices": ["Bubble Sort", "Fisher-Yates", "Binary Search", "Dijkstra"],
+    "answerIndex": 1,
+    "explanation": "偏りの少ないランダム抽出のためFisher-Yatesシャッフルを採用します。",
+    "sourceTitle": "oo-quest仕様書",
+    "sourceSection": "15. 20問バトル設計",
+    "sourceUrl": "",
+    "sourceQuote": "抽出アルゴリズムには偏りのないFisher-Yatesシャッフルを採用"
+  }
+]
