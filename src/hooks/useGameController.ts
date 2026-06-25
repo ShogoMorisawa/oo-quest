@@ -1,11 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { updateMistakeRecords } from "@/lib/game";
-import { formatQuestTitle } from "@/lib/labels";
-import type { AppSettings, MistakeRecord, Mode, Question, QuizAttempt, QuizSession } from "@/lib/schemas";
+import {
+  advanceBattleState,
+  answerBattleState,
+  createBattleState,
+  createQuizSession,
+  resolveReviewMistake,
+  selectReviewQuestions,
+  updateMistakeRecords
+} from "@/lib/game";
+import type { AppSettings, MistakeRecord, Mode, Question, QuizSession } from "@/lib/schemas";
 import { readHistory, readMistakes, writeHistory, writeMistakes } from "@/lib/storage";
-import { makeId, modeConfig, pickBattleQuestions } from "@/lib/utils";
 import type { BattleState, LoadedQuest, View } from "@/types/app";
 
 export function useGameController({
@@ -29,64 +35,14 @@ export function useGameController({
 
   function startBattle(mode: Mode) {
     if (!loadedQuest) return;
-    const questions = pickBattleQuestions(loadedQuest.questions);
-    const maxEnemyHp = Math.max(questions.length * 5, 5);
-    setBattle({
-      mode,
-      questions,
-      index: 0,
-      playerHp: modeConfig[mode].hp,
-      enemyHp: maxEnemyHp,
-      maxEnemyHp,
-      attempts: [],
-      wrongQuestionIds: [],
-      selectedChoice: null,
-      log: [`${displayDragonName}が あらわれた！`],
-      finished: false
-    });
+    setBattle(createBattleState({ mode, questions: loadedQuest.questions, dragonName: displayDragonName }));
     setResult(null);
     setView("battle");
   }
 
   function answerBattle(choiceIndex: number) {
     if (!battle || !loadedQuest || battle.selectedChoice !== null || battle.finished) return;
-    const question = battle.questions[battle.index];
-    const isCorrect = choiceIndex === question.answerIndex;
-    const now = new Date().toISOString();
-    const attempt: QuizAttempt = {
-      questionId: question.id,
-      category: question.category,
-      isCorrect,
-      answeredAt: now
-    };
-    const damage = modeConfig[battle.mode].damage;
-    const nextEnemyHp = isCorrect ? Math.max(0, battle.enemyHp - 5) : battle.enemyHp;
-    const nextPlayerHp = isCorrect ? battle.playerHp : Math.max(0, battle.playerHp - damage);
-    const log = isCorrect
-      ? ["正解！", `${settings.playerName}のこうげき！`, `${displayDragonName}に 5 のダメージ！`]
-      : battle.mode === "Max"
-        ? [
-            "ミス！",
-            "敵の攻撃力が100倍になった！",
-            `${displayDragonName}のこうげき！`,
-            `${settings.playerName}は 9999 のダメージをうけた！`,
-            "ちからつきた..."
-          ]
-        : [
-            "ミス！",
-            `${displayDragonName}のこうげき！`,
-            `${settings.playerName}は ${damage} のダメージをうけた！`
-          ];
-    setBattle({
-      ...battle,
-      enemyHp: nextEnemyHp,
-      playerHp: nextPlayerHp,
-      attempts: [...battle.attempts, attempt],
-      wrongQuestionIds: isCorrect ? battle.wrongQuestionIds : [...battle.wrongQuestionIds, question.id],
-      selectedChoice: choiceIndex,
-      log,
-      finished: nextEnemyHp <= 0 || nextPlayerHp <= 0
-    });
+    setBattle(answerBattleState({ battle, choiceIndex, playerName: settings.playerName, dragonName: displayDragonName }));
   }
 
   function nextBattleQuestion() {
@@ -96,32 +52,12 @@ export function useGameController({
       finishBattle(battle);
       return;
     }
-    setBattle({
-      ...battle,
-      index: battle.index + 1,
-      selectedChoice: null,
-      log: [`${battle.index + 2}問目。コマンドを選べ！`]
-    });
+    setBattle(advanceBattleState(battle));
   }
 
   function finishBattle(finalBattle: BattleState) {
     if (!loadedQuest) return;
-    const correctCount = finalBattle.attempts.filter((attempt) => attempt.isCorrect).length;
-    const cleared = finalBattle.enemyHp <= 0;
-    const session: QuizSession = {
-      id: makeId(),
-      questId: loadedQuest.meta.id,
-      questTitle: formatQuestTitle(settings.questTitle || loadedQuest.meta.title),
-      dragonName: displayDragonName,
-      mode: finalBattle.mode,
-      startedAt: new Date(Date.now() - finalBattle.attempts.length * 30000).toISOString(),
-      finishedAt: new Date().toISOString(),
-      totalQuestions: finalBattle.questions.length,
-      correctCount,
-      cleared,
-      gameOver: !cleared,
-      attempts: finalBattle.attempts
-    };
+    const session = createQuizSession({ battle: finalBattle, loadedQuest, settings, dragonName: displayDragonName });
     const nextHistory = [session, ...history].slice(0, 200);
     const nextMistakes = updateMistakeRecords(mistakes, finalBattle.attempts);
     setHistory(nextHistory);
@@ -134,9 +70,7 @@ export function useGameController({
 
   function startReview() {
     if (!loadedQuest) return;
-    const unresolved = new Set(mistakes.filter((record) => !record.resolved).map((record) => record.questionId));
-    const questions = loadedQuest.questions.filter((question) => unresolved.has(question.id));
-    setReviewQuestions(questions);
+    setReviewQuestions(selectReviewQuestions(loadedQuest.questions, mistakes));
     setReviewIndex(0);
     setReviewAnswered(false);
     setView("review");
@@ -146,9 +80,7 @@ export function useGameController({
     if (!loadedQuest || reviewAnswered) return;
     const question = reviewQuestions[reviewIndex];
     const isCorrect = choiceIndex === question.answerIndex;
-    const nextMistakes = mistakes.map((record) =>
-      record.questionId === question.id ? { ...record, resolved: isCorrect ? true : false } : record
-    );
+    const nextMistakes = resolveReviewMistake(mistakes, question.id, isCorrect);
     setMistakes(nextMistakes);
     writeMistakes(nextMistakes);
     setReviewAnswered(true);
